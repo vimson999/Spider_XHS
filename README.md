@@ -4,13 +4,9 @@
 ![image](https://github.com/user-attachments/assets/54c45c9d-294f-4a05-b74a-c78c7f02a180)
 
 
+**✨ 专业的小红书数据采集解决方案，支持笔记爬取，保存格式为excel或者media**
 
-**最新signSvn56 AES | xs xt xscommom x-b3-traceid x-xray-traceid sign a1 qsignature源码**
-
-**联系作者 全部协议接口、小红书pc、小红书创作者、小红书专业号、小红书千帆、小红书蒲公英，定制需求**
-
-**✨ 专业的小红书数据采集解决方案，支持笔记爬取，保存格式为excel或者media。**
-
+**✨ 小红书全域运营解决方法，AI一键改写笔记（图文，视频）直接上传（private）**
 
 ## 🌟 功能特性
 

@@ -34,6 +34,8 @@
 ![image](https://github.com/cv-cat/Spider_XHS/assets/94289429/880884e8-4a1d-4dc1-a4dc-e168dd0e9896)
 ### 某个笔记具体的内容
 ![image](https://github.com/cv-cat/Spider_XHS/assets/94289429/d17f3f4e-cd44-4d3a-b9f6-d880da626cc8)
+### 保存的excel
+![image](https://github.com/user-attachments/assets/707f20ed-be27-4482-89b3-a5863bc360e7)
 
 ## 🛠️ 快速开始
 ### ⛳运行环境

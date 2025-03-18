@@ -49,7 +49,7 @@ npm install
 ```
 
 ### 🎨配置文件
-- 配置文件在项目根目录.env文件中，将下图自己的登录cookie放入其中，在浏览器f12打开控制台，点击网络，找一个接口点开。
+配置文件在项目根目录.env文件中，将下图自己的登录cookie放入其中，在浏览器f12打开控制台，点击网络，找一个接口点开。
 ![image](https://github.com/user-attachments/assets/6a7e4ecb-0432-4581-890a-577e0eae463d)
 
 ### 🚀运行项目

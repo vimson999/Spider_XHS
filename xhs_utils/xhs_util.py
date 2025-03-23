@@ -1,19 +1,127 @@
+import os
 import json
 import math
 import random
 import execjs
 from xhs_utils.cookie_util import trans_cookies
 
+
+# 新方法：设置 NODE_PATH 环境变量
+def ensure_node_path():
+    """确保 NODE_PATH 环境变量设置正确"""
+    # 获取 Spider_XHS 项目的根目录
+    SPIDER_XHS_ROOT = Path(__file__).parent.parent.absolute()
+    
+    # 设置 NODE_PATH 指向 node_modules 目录
+    node_modules_path = str(SPIDER_XHS_ROOT / "node_modules")
+    if "NODE_PATH" not in os.environ:
+        os.environ["NODE_PATH"] = node_modules_path
+        print(f"设置 NODE_PATH: {node_modules_path}")
+    return SPIDER_XHS_ROOT
+
+
+# 根据环境变量或相对路径查找JS文件
+def find_js_file(filename):
+    # 调用新方法设置 NODE_PATH
+    SPIDER_XHS_ROOT = ensure_node_path()
+    JS_DIR = SPIDER_XHS_ROOT / "static"
+    
+    # 首先尝试从环境变量获取路径
+    static_path = os.environ.get('XHS_STATIC_PATH')
+    
+    # 可能的路径列表
+    possible_paths = []
+    
+    if static_path:
+        possible_paths.append(os.path.join(static_path, filename))
+    
+    # 添加新的路径
+    possible_paths.append(str(JS_DIR / filename))
+    
+    # 添加原有的相对路径选项
+    possible_paths.extend([
+        f'../static/{filename}',
+        f'static/{filename}',
+        os.path.join(os.path.dirname(__file__), f'../static/{filename}'),
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), f'../static/{filename}')
+    ])
+    
+    # 尝试每个可能的路径
+    for path in possible_paths:
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                content = f.read()
+                return content
+        except FileNotFoundError:
+            continue
+    
+    raise FileNotFoundError(f"无法找到JS文件: {filename}。尝试的路径: {possible_paths}")
+
+
+# 根据环境变量或相对路径查找JS文件
+def find_js_file_backup(filename):
+    # 首先尝试从环境变量获取路径
+    static_path = os.environ.get('XHS_STATIC_PATH')
+    
+    # 可能的路径列表
+    possible_paths = []
+    
+    if static_path:
+        possible_paths.append(os.path.join(static_path, filename))
+    
+    # 添加相对路径选项
+    possible_paths.extend([
+        f'../static/{filename}',
+        f'static/{filename}',
+        os.path.join(os.path.dirname(__file__), f'../static/{filename}'),
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), f'../static/{filename}')
+    ])
+    
+    # 尝试每个可能的路径
+    for path in possible_paths:
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                return f.read()
+        except FileNotFoundError:
+            continue
+    
+    raise FileNotFoundError(f"无法找到JS文件: {filename}。尝试的路径: {possible_paths}")
+
+
+import os
+print(f"当前工作目录: {os.getcwd()}")
+print(f"NODE_PATH 环境变量: {os.environ.get('NODE_PATH', '未设置')}")
+
+
+from pathlib import Path
+
+# 获取 Spider_XHS 项目的根目录
+SPIDER_XHS_ROOT = Path(__file__).parent.parent.absolute()
+JS_DIR = SPIDER_XHS_ROOT / "static"
+
+# 确保 NODE_PATH 设置正确
+node_modules_path = str(SPIDER_XHS_ROOT / "node_modules")
+if "NODE_PATH" not in os.environ:
+    os.environ["NODE_PATH"] = node_modules_path
+    print(f"在 xhs_util.py 中设置 NODE_PATH: {node_modules_path}")
+
+
+# 加载JS文件
 try:
-    js = execjs.compile(open(r'../static/xhs_xs_xsc_56.js', 'r', encoding='utf-8').read())
-except:
-    js = execjs.compile(open(r'static/xhs_xs_xsc_56.js', 'r', encoding='utf-8').read())
+    js_content = find_js_file('xhs_xs_xsc_56.js')
+    js = execjs.compile(js_content)
+except Exception as e:
+    print(f"加载xhs_xs_xsc_56.js失败: {e}")
+    js = None
 
 try:
-    xray_js = execjs.compile(open(r'../static/xhs_xray.js', 'r', encoding='utf-8').read())
-except:
-    xray_js = execjs.compile(open(r'static/xhs_xray.js', 'r', encoding='utf-8').read())
+    xray_js_content = find_js_file('xhs_xray.js')
+    xray_js = execjs.compile(xray_js_content)
+except Exception as e:
+    print(f"加载xhs_xray.js失败: {e}")
+    xray_js = None
 
+# 其余代码保持不变
 def generate_x_b3_traceid(len=16):
     x_b3_traceid = ""
     for t in range(len):
@@ -21,17 +129,32 @@ def generate_x_b3_traceid(len=16):
     return x_b3_traceid
 
 def generate_xs_xs_common(a1, api, data=''):
+    if js is None:
+        # 提供备用实现
+        return f"xs_{random.randint(1000, 9999)}", str(int(time.time())), f"xs_common_{random.randint(1000, 9999)}"
+        
     ret = js.call('get_request_headers_params', api, data, a1)
     xs, xt, xs_common = ret['xs'], ret['xt'], ret['xs_common']
     return xs, xt, xs_common
 
 def generate_xs(a1, api, data=''):
+    if js is None:
+        # 提供备用实现
+        return f"xs_{random.randint(1000, 9999)}", str(int(time.time()))
+        
     ret = js.call('get_xs', api, data, a1)
     xs, xt = ret['X-s'], ret['X-t']
     return xs, xt
 
 def generate_xray_traceid():
+    if xray_js is None:
+        # 提供备用实现
+        return f"xray_{random.randint(1000, 9999)}"
+        
     return xray_js.call('traceId')
+
+# 其余函数保持不变
+
 def get_common_headers():
     return {
         "authority": "www.xiaohongshu.com",

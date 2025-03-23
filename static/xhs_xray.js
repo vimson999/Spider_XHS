@@ -417,24 +417,90 @@ var zc666;
     zc666 = f;
 }();
 //# sourceMappingURL=https://picasso-private-1251524319.cos.ap-shanghai.myqcloud.com/data/formula-static/formula/xhs-pc-web/runtime-main.8718828.js.map
+// try {
+//     require('./xhs_xray_pack1.js');
+// } catch (e) {
+//     try {
+//         require('../static/xhs_xray_pack1.js');
+//     } catch (e) {
+//         require('./static/xhs_xray_pack1.js');
+//     }
+// }
+// try {
+//     require('./xhs_xray_pack2.js');
+// } catch (e) {
+//     try {
+//         require('../static/xhs_xray_pack2.js');
+//     } catch (e) {
+//         require('./static/xhs_xray_pack2.js');
+//     }
+// }
+
+
 try {
     require('./xhs_xray_pack1.js');
 } catch (e) {
     try {
         require('../static/xhs_xray_pack1.js');
     } catch (e) {
-        require('./static/xhs_xray_pack1.js');
+        try {
+            require('./static/xhs_xray_pack1.js');
+        } catch (e) {
+            try {
+                require('../../static/xhs_xray_pack1.js');
+            } catch (e) {
+                try {
+                    require('../libs/spider_xhs/static/xhs_xray_pack1.js');
+                } catch (e) {
+                    try {
+                        require('../../libs/spider_xhs/static/xhs_xray_pack1.js');
+                    } catch (e) {
+                        try {
+                            require('/Users/v9/Documents/workspace/v9/code/hot-seahorse/hot-seahorse/src/libs/spider_xhs/static/xhs_xray_pack1.js');
+                        } catch (e) {
+                            console.error('无法加载 xhs_xray_pack1.js', e);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
+
+// 同样的模式用于 pack2
 try {
     require('./xhs_xray_pack2.js');
 } catch (e) {
     try {
         require('../static/xhs_xray_pack2.js');
     } catch (e) {
-        require('./static/xhs_xray_pack2.js');
+        try {
+            require('./static/xhs_xray_pack2.js');
+        } catch (e) {
+            try {
+                require('../../static/xhs_xray_pack2.js');
+            } catch (e) {
+                try {
+                    require('../libs/spider_xhs/static/xhs_xray_pack2.js');
+                } catch (e) {
+                    try {
+                        require('../../libs/spider_xhs/static/xhs_xray_pack2.js');
+                    } catch (e) {
+                        try {
+                            require('/Users/v9/Documents/workspace/v9/code/hot-seahorse/hot-seahorse/src/libs/spider_xhs/static/xhs_xray_pack2.js');
+                        } catch (e) {
+                            console.error('无法加载 xhs_xray_pack2.js', e);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
+
+
+
+
 var n = zc666(36497)
           , o = zc666(609)
           , i = zc666(2030);

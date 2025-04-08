@@ -458,7 +458,12 @@ try {
                         try {
                             require('/Users/v9/Documents/workspace/v9/code/hot-seahorse/hot-seahorse/src/libs/spider_xhs/static/xhs_xray_pack1.js');
                         } catch (e) {
-                            console.error('无法加载 xhs_xray_pack1.js', e);
+                            try {
+                                require('/code/bot_api_v1/src/bot_api_v1/libs/spider_xhs/static/xhs_xray_pack1.js');
+                                console.log('成功加载 xhs_xray_pack1.js');
+                              } catch (e) {
+                                console.error('加载 xhs_xray_pack1.js 失败:', e);
+                              }
                         }
                     }
                 }
@@ -489,7 +494,12 @@ try {
                         try {
                             require('/Users/v9/Documents/workspace/v9/code/hot-seahorse/hot-seahorse/src/libs/spider_xhs/static/xhs_xray_pack2.js');
                         } catch (e) {
-                            console.error('无法加载 xhs_xray_pack2.js', e);
+                            try {
+                                require('/code/bot_api_v1/src/bot_api_v1/libs/spider_xhs/static/xhs_xray_pack2.js');
+                                console.log('成功加载 xhs_xray_pack2.js');
+                              } catch (e) {
+                                console.error('加载 xhs_xray_pack2.js 失败:', e);
+                              }
                         }
                     }
                 }

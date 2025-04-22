@@ -496,11 +496,9 @@ try {
                         } catch (e) {
                             try {
                                 require('/code/bot_api_v1/src/bot_api_v1/libs/spider_xhs/static/xhs_xray_pack2.js');
-                                console.log('成功加载 xhs_xray_pack2.js');
                               } catch (e) {
                                 try {
                                     require('/code/bot_app/bot_api_v1/src/bot_api_v1/libs/spider_xhs/static/xhs_xray_pack2.js');
-                                    console.log('成功加载 xhs_xray_pack2.js');
                                   } catch (e) {
                                     console.error('加载 xhs_xray_pack2.js 失败:', e);
                                   }

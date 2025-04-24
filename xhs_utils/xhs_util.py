@@ -5,6 +5,8 @@ import random
 import execjs
 from xhs_utils.cookie_util import trans_cookies
 
+from bot_api_v1.app.core.logger import logger as lg
+
 
 # 新方法：设置 NODE_PATH 环境变量
 def ensure_node_path():
@@ -85,6 +87,7 @@ def find_js_file_backup(filename):
         except FileNotFoundError:
             continue
     
+    lg.error(f"xhs_util ---- 无法找到JS文件: {filename}。尝试的路径: {possible_paths}")
     raise FileNotFoundError(f"无法找到JS文件: {filename}。尝试的路径: {possible_paths}")
 
 
@@ -112,13 +115,18 @@ try:
     js = execjs.compile(js_content)
 except Exception as e:
     print(f"加载xhs_xs_xsc_56.js失败: {e}")
+    lg.error(f"加载xhs_xs_xsc_56.js失败: {e}")
+
     js = None
+
 
 try:
     xray_js_content = find_js_file('xhs_xray.js')
     xray_js = execjs.compile(xray_js_content)
 except Exception as e:
     print(f"加载xhs_xray.js失败: {e}")
+    lg.error(f"xhs_xray.js失败: {e}")
+
     xray_js = None
 
 # 其余代码保持不变
@@ -150,8 +158,14 @@ def generate_xray_traceid():
     if xray_js is None:
         # 提供备用实现
         return f"xray_{random.randint(1000, 9999)}"
-        
-    return xray_js.call('traceId')
+
+    try:
+        return xray_js.call('traceId')
+    except Exception as e:
+        print(f"生成xray traceid失败: {e}")
+        lg.error(f"generate_xray_traceid------生成xray traceid失败: {e}")
+
+        return f"xray_{random.randint(1000, 9999)}" 
 
 # 其余函数保持不变
 
@@ -198,7 +212,6 @@ def get_request_headers_template():
     }
 
 def generate_headers(a1, api, data=''):
-    from bot_api_v1.app.core.logger import logger as lg
     lg.info(f"generate_xs_xs_common begin ,a1 is {a1},api is {api},data is {data}")
     
     xs, xt, xs_common = generate_xs_xs_common(a1, api, data)
@@ -217,7 +230,6 @@ def generate_headers(a1, api, data=''):
     return headers, data
 
 def generate_request_params(cookies_str, api, data=''):
-    from bot_api_v1.app.core.logger import logger as lg
     lg.info(f"trans_cookies begin ,cookies_str is {cookies_str},api is {api}")
     
     cookies = trans_cookies(cookies_str)

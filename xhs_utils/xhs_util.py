@@ -210,8 +210,13 @@ def generate_headers(a1, api, data=''):
     return headers, data
 
 def generate_request_params(cookies_str, api, data=''):
+    from bot_api_v1.app.core.logger import logger as lg
+    lg.info(f"trans_cookies begin ,cookies_str is {cookies_str},api is {api}")
+    
     cookies = trans_cookies(cookies_str)
     a1 = cookies['a1']
+
+    lg.info(f"generate_headers begin ,a1 is {a1},api is {api}")
     headers, data = generate_headers(a1, api, data)
     return headers, cookies, data
 

@@ -198,8 +198,15 @@ def get_request_headers_template():
     }
 
 def generate_headers(a1, api, data=''):
+    from bot_api_v1.app.core.logger import logger as lg
+    lg.info(f"generate_xs_xs_common begin ,a1 is {a1},api is {api},data is {data}")
+    
     xs, xt, xs_common = generate_xs_xs_common(a1, api, data)
+
+    lg.info(f"generate_x_b3_traceid begin ,a1 is {a1},api is {api},data is {data}")
     x_b3_traceid = generate_x_b3_traceid()
+
+    lg.info(f"get_request_headers_template begin")
     headers = get_request_headers_template()
     headers['x-s'] = xs
     headers['x-t'] = str(xt)

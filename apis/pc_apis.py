@@ -111,6 +111,9 @@ class XHS_Apis():
         """
         res_json = None
         try:
+            from bot_api_v1.app.core.logger import logger as lg
+            lg.info(f"get_note_info begin ,url is {url},cookies_str is {cookies_str}")
+            
             urlParse = urllib.parse.urlparse(url)
             note_id = urlParse.path.split("/")[-1]
             kvs = urlParse.query.split('&')
@@ -129,7 +132,11 @@ class XHS_Apis():
                 "xsec_source": kvDist['xsec_source'] if 'xsec_source' in kvDist else "pc_search",
                 "xsec_token": kvDist['xsec_token']
             }
+            
+            lg.info(f"generate_request_params begin ,api is {api},cookies_str is {cookies_str},data is {data}")
             headers, cookies, data = generate_request_params(cookies_str, api, data)
+
+            lg.info(f"post begin ,api is {api},cookies_str is {cookies_str},data is {data}")
             response = requests.post(self.base_url + api, headers=headers, data=data, cookies=cookies, proxies=proxies)
             res_json = response.json()
             success, msg = res_json["success"], res_json["msg"]
